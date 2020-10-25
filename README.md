@@ -28,3 +28,6 @@ yolo_anchor -  임이의 박스 크기 (여기서 정한)
 python yolo_video.py --image : 사진 입력을 받음 -> BMP으로 결과 나옴 -> .save 저장하게 만듦 -> result에 결과 저장 (날짜, 시간순으로)
 - yolo.h5 model, anchors and classes loaded 필요
 
+#yolo 서버의 restframework 
+https://medium.com/@chamakhabdallah8/how-to-deploy-a-keras-model-to-production-with-django-drf-celery-and-redis-df4901014355 
+
