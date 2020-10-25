@@ -1,6 +1,3 @@
-"""
-Class definition of YOLO_v3 style detection model on image and video
-"""
 
 import colorsys
 import os
@@ -122,9 +119,10 @@ class YOLO(object):
                 self.input_image_shape: [image.size[1], image.size[0]],
                 K.learning_phase(): 0
             })
-
+        
         print('Found {} boxes for {}'.format(len(out_boxes), 'img'))
-
+        if(len(out_boxes) == 0):
+            return 0
         font = ImageFont.truetype(font='font/FiraMono-Medium.otf',
                     size=np.floor(3e-2 * image.size[1] + 0.5).astype('int32'))
         thickness = (image.size[0] + image.size[1]) // 300

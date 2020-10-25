@@ -1,9 +1,9 @@
 import sys
-import cv2
 import numpy as np
 import argparse
 from yolo import YOLO, detect_video
 from PIL import Image
+import time
 
 def detect_img(yolo):
     while True:
@@ -15,8 +15,10 @@ def detect_img(yolo):
             continue
         else:
             r_image = yolo.detect_image(image)
-            r_image.show()
-            r_image.save("sale_bmp.jpg")
+            if(r_image != 0):
+                r_image.show()
+                tm = time.strftime('%Y%m%d_%I%M%S', time.localtime(time.time()))
+                r_image.save('result/'+tm+".jpg")
     yolo.close_session()
 
 FLAGS = None
