@@ -20,3 +20,8 @@ python convert.py yolov3.cfg yolov3.weights model_data/yolo.h5
 python yolo_video.py [OPTIONS...] --image, for image detection mode, OR
 python yolo_video.py [video_path] [output_path (optional)]
 
+yolo_anchor -  임이의 박스 크기 (여기서 정한)
+
+python yolo_video.py --image : 사진 입력을 받음 -> BMP으로 결과 나옴 -> .save 저장하게 만듦
+- yolo.h5 model, anchors and classes loaded 필요
+
