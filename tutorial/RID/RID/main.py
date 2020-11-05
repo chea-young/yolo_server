@@ -192,6 +192,8 @@ def main(_argv):
         background=None
         while True:
             return_value, frame = vid.read()
+            image_value, attracted_image = vid.read()
+
             if return_value:
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 image = Image.fromarray(frame)
@@ -277,6 +279,8 @@ def main(_argv):
                     names.append(class_name)
             names = np.array(names)
             count = len(names)
+            #attracted_image = frame
+
             if FLAGS.count:
                 cv2.putText(frame, "Objects being tracked: {}".format(count), (5, 35), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2, (0, 255, 0), 2)
                 print("Objects being tracked: {}".format(count))
@@ -386,14 +390,12 @@ def main(_argv):
             saved_log(video_path,tracker_dict,acc_dict,obst_dict,log_num)
 
             image_path='./output_image/'
-            #slash_idx=video_path.rfind('/')
-            #saved_image=image_path+video_path[slash_idx+1:-4]+'/'
-            #saved_image_acc=saved_image+'acc_log/'
+            slash_idx=video_path.rfind('/')
+            saved_image=image_path+video_path[slash_idx+1:-4]+'/'
 
             if bool(acc_dict)==True:
                 print('in')
-                cv2.imwrite('./output_image/'+str(log_num)+'.png',frame)
-
+                cv2.imwrite(saved_image+str(log_num)+'.png',attracted_image)
 
             # if output flag is set, save video file
             if FLAGS.output:
