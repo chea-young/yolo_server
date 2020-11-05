@@ -117,3 +117,11 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+#모델 파일
+*.txt
+*.png
+*.avi
+*.mp4
+*.bat
+*.names

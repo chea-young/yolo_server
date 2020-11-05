@@ -31,3 +31,4 @@ python yolo_video.py --image : 사진 입력을 받음 -> BMP으로 결과 나�
 #yolo 서버의 restframework 
 https://medium.com/@chamakhabdallah8/how-to-deploy-a-keras-model-to-production-with-django-drf-celery-and-redis-df4901014355 
 
+
