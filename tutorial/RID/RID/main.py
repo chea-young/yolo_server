@@ -393,9 +393,18 @@ def main(_argv):
             slash_idx=video_path.rfind('/')
             saved_image=image_path+video_path[slash_idx+1:-4]+'/'
 
+            try:
+                if not os.path.exists(saved_image):
+                    os.makedirs(saved_image)
+            except OSError:
+                print ('Error: Creating directory. ' +  saved_image)
+
             if bool(acc_dict)==True:
-                print('in')
-                cv2.imwrite(saved_image+str(log_num)+'.png',attracted_image)
+                print('in',str(log_num))
+                try:
+                    cv2.imwrite(saved_image+str(log_num)+'.png',attracted_image)
+                except Exception:
+                    print('No data')
 
             # if output flag is set, save video file
             if FLAGS.output:
@@ -403,7 +412,7 @@ def main(_argv):
             if cv2.waitKey(1) & 0xFF == ord('q'): break
             log_num+=1  
         cv2.destroyAllWindows()
-
+ 
 if __name__ == '__main__':
     try:
         app.run(main)
