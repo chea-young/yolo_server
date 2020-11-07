@@ -32,8 +32,6 @@ python yolo_video.py --image : 사진 입력을 받음 -> BMP으로 결과 나�
 https://medium.com/@chamakhabdallah8/how-to-deploy-a-keras-model-to-production-with-django-drf-celery-and-redis-df4901014355 
 
 
-## 이미지 파일 서버로 전송
-1. yolo에서 push alarm 으로 바로 전송
-2. push 서버로 보내기
-3. push 서버에서 일정한 주기로 신호 줘서 가져가기(queue 저장)
+### 이미지 전송 restful
+- https://yongwookha.github.io/ETC/2020-07-22-django-rest-api-framework
 

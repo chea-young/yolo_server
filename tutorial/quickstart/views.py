@@ -8,6 +8,8 @@ from .serializers import UserSerializer, GroupSerializer
 from .serializers import InferenceSerializer
 from .models import Inference
 from celery.result import AsyncResult
+from RID.RID.main import run
+from RID.RID.select_image import select
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
@@ -30,3 +32,12 @@ class InferenceViewSet(viewsets.ModelViewSet):
             progress  = result.info['progress']
         description = result.state
         return Response({'progress':progress,'description':description},status=status.HTTP_200_OK)
+
+# 동영상을 주기적으로 계속 감시, init으로 넣어야 되나..
+#select는 주기적으로 
+def detect_situation():
+    # send_image(path, image)
+    pass
+
+def send_image(image_path, image):
+    pass

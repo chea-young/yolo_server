@@ -16,6 +16,7 @@ from core.yolov4 import filter_boxes
 from tensorflow.python.saved_model import tag_constants
 from core.config import cfg
 
+
 from PIL import Image
 import cv2
 import numpy as np
@@ -27,6 +28,8 @@ from deep_sort import preprocessing, nn_matching
 from deep_sort.detection import Detection
 from deep_sort.tracker import Tracker
 from tools import generate_detections as gdet
+
+from .select_image import select
 
 flags.DEFINE_string('framework', 'tf', '(tf, tflite, trt')
 flags.DEFINE_string('weights', './checkpoints/yolov4-416',
@@ -45,7 +48,7 @@ flags.DEFINE_boolean('count', False, 'count objects being tracked on screen')
 
 
 
-def saved_log(video_path,bbox_dict,acc_dict,obst_dict,log_num):
+def saved_log(video_path,bbox_dict,acc_dict,obst_dict,log_num,attracted_image):
     root_path='./outputs/'
     slash_idx=video_path.rfind('/')
     saved_path=root_path+video_path[slash_idx+1:-4]+'/'
@@ -56,8 +59,9 @@ def saved_log(video_path,bbox_dict,acc_dict,obst_dict,log_num):
     # image 저장하는 path
     image_path='./output_image/'
     saved_image=image_path+video_path[slash_idx+1:-4]+'/'
-    saved_image_acc=saved_image+'acc_log/'
-    saved_image_obst=saved_image+'obstacle_log/'
+    saved_image_acc=saved_image+'acc_image/'
+    saved_image_obst=saved_image+'obstacle_image/'
+
     # 영상을 계속 읽고 있는 부부을 찾아서 함수 인자로 받게 하기 그래서 그걸 캡쳐하는 코드를 추가하기
     
     if not os.path.exists(saved_path_bbox):
@@ -67,6 +71,11 @@ def saved_log(video_path,bbox_dict,acc_dict,obst_dict,log_num):
     if not os.path.exists(saved_path_obst):
         os.makedirs(saved_path_obst)
     
+    if not os.path.exists(saved_image_acc):
+        os.makedirs(saved_image_acc)
+    if not os.path.exists(saved_image_obst):
+        os.makedirs(saved_image_obst)
+
     if bool(bbox_dict)== True:
         with open(saved_path_bbox+str(log_num)+'.txt', "w") as f:
             for key, value in bbox_dict.items():
@@ -79,11 +88,19 @@ def saved_log(video_path,bbox_dict,acc_dict,obst_dict,log_num):
 
                 f.writelines(f'ID: {key}, BBOX: [ xmin:{value[0]}, ymin:{value[1]}, xmax:{value[2]}, ymax:{value[3]}\n')
         f.close()
+        print('in',str(log_num))
+        cv2.imwrite(saved_image_acc+str(log_num)+'.png',attracted_image)
+        # 이미지 선택 하는 코드
+        #urls 불러서 이미지 보내는 코드가 django 그래서 이 파일이 부릴
+
     if bool(obst_dict)==True:
         with open(saved_path_obst+str(log_num)+'.txt', "w") as f:
             for key, value in obst_dict.items():
                 f.writelines(f'ID: {key}, BBOX: [ xmin:{value[0]}, ymin:{value[1]}, xmax:{value[2]}, ymax:{value[3]}\n')
         f.close()
+        print('in',str(log_num))
+        cv2.imwrite(saved_image_obst+str(log_num)+'.png',attracted_image)
+        
         
 def obstacle_detector(bboxes, background, frame):
     obst_dict=None
@@ -191,6 +208,7 @@ def main(_argv):
         log_num=0
         background=None
         while True:
+            # 비디오가 재생되면 한 프레임씩 읽는다.
             return_value, frame = vid.read()
             image_value, attracted_image = vid.read()
 
@@ -198,7 +216,8 @@ def main(_argv):
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 image = Image.fromarray(frame)
             else:
-                print('Video has ended or failed, try a different video format!')
+                print('------------------------------')
+                print('Video has ended or failed, try a different video format!', str(log_num))
                 break
 
             if log_num==0:
@@ -387,25 +406,7 @@ def main(_argv):
             
             if not FLAGS.dont_show:
                 cv2.imshow("Output Video", result)
-            saved_log(video_path,tracker_dict,acc_dict,obst_dict,log_num)
-
-            image_path='./output_image/'
-            slash_idx=video_path.rfind('/')
-            saved_image=image_path+video_path[slash_idx+1:-4]+'/'
-
-            try:
-                if not os.path.exists(saved_image):
-                    os.makedirs(saved_image)
-            except OSError:
-                print ('Error: Creating directory. ' +  saved_image)
-
-            if bool(acc_dict)==True:
-                print('in',str(log_num))
-                try:
-                    cv2.imwrite(saved_image+str(log_num)+'.png',attracted_image)
-                except Exception:
-                    print('No data')
-
+            saved_log(video_path,tracker_dict,acc_dict,obst_dict,log_num,attracted_image)
             # if output flag is set, save video file
             if FLAGS.output:
                 out.write(result)
