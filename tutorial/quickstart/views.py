@@ -8,8 +8,7 @@ from .serializers import UserSerializer, GroupSerializer
 from .serializers import InferenceSerializer
 from .models import Inference, ImageData
 from celery.result import AsyncResult
-from RID/RID/main import run
-from RID/RID/select_image import select
+#from RID.RID.main import run
 from django.views import View
 from django.http import HttpResponse, JsonResponse
 import cv2
@@ -76,12 +75,15 @@ class DetectStartView(View):
     def delete(self, request):
         return HttpResponse("Delete 요청을 잘받았다")
 
-
+import js2py
 # 동영상을 주기적으로 계속 감시, init으로 넣어야 되나..
 #select는 주기적으로 
-def detect_situation():
+def detect_situation(request):
+    #js2py.translate_file('send.js', 'send.py')
+    #select(video_path, image)
     # send_image(path, image)
-    pass
+    print('send')
+    return render(request, 'quickstart/basic.html')
 
 def select(video_path,case):
     image_list = os.listdir(video_path)

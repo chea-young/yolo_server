@@ -1,3 +1,19 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<button onclick="myFunction()">Click me</button>
+
+<p id="demo"></p>
+
+<p>A function is triggered when the button is clicked. The function outputs some text in a p element with id="demo".</p>
+
+<script>
+
+function myFunction() {
+  document.getElementById("demo").innerHTML = "Hello World";
+}
+
 //const { UV_FS_O_FILEMAP } = require('constants');
 //image를 base64로 변화해주는 코드
 const {
@@ -5,15 +21,13 @@ const {
     remote
 } = require('electron')
 const fs = require('fs')
-
-const filepath = '' // python 변수 가능하면 쓰기
+const filepath = 'C:/Users/w1004/Documents/GitHub/iceboat/tutorial/quickstart/templates/quickstart/79.png' // python 변수 가능하면 쓰기
 
 function base64_encode(file){
     let buf = fs.readFileSync(file);
     let base64 = buf.toString('base64');
     return base64;
 };
-
 const _base64 = base64_encode(filepath)
 
 ipcRenderer.sendSync('sPOST', _base64)
@@ -29,7 +43,7 @@ ipcMain.on("sPOST", async (event, data) => {
 
 function post(data){
     return new PromiseRejectionEvent(function (resolve, reject){
-        const _URL = 'http://127.0.0.1.8000/get_image'
+        const _URL = 'http://127.0.0.1:8000/get_image/'
         const data = Object.assign({
             headers: {
                 'Content-type' : 'application/json',
@@ -47,3 +61,9 @@ function post(data){
         });
     })
 }
+
+</script>
+
+</body>
+</html>
+

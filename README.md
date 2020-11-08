@@ -37,8 +37,10 @@ https://medium.com/@chamakhabdallah8/how-to-deploy-a-keras-model-to-production-w
 - https://eunjin3786.tistory.com/133
 - https://itinerant.tistory.com/134?category=736038
 
-
-- python manage.py runserver 127.0.0.1:8008
-
 ### js 실행시키기
+- https://iamaman.tistory.com/2058
 
+### 이미지 전송 시나리오
+- python manage.py runserver 127.0.0.1:8008 실행
+- http://127.0.0.1:8008/quickstart/detect_signal/ 화면을 치면
+- push_server로 http://127.0.0.1:8000/get_image/ post로 보내지고 자동으로 DB에 저장
