@@ -36,6 +36,7 @@ https://medium.com/@chamakhabdallah8/how-to-deploy-a-keras-model-to-production-w
 - https://yongwookha.github.io/ETC/2020-07-22-django-rest-api-framework
 - https://eunjin3786.tistory.com/133
 - https://itinerant.tistory.com/134?category=736038
+- https://bourbonkk.tistory.com/69 => send_post.html
 
 ### js 실행시키기
 - https://iamaman.tistory.com/2058

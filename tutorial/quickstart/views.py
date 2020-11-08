@@ -83,7 +83,7 @@ def detect_situation(request):
     #select(video_path, image)
     # send_image(path, image)
     print('send')
-    return render(request, 'quickstart/basic.html')
+    return render(request, 'quickstart/send_post.html')
 
 def select(video_path,case):
     image_list = os.listdir(video_path)

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<div class="form=group">
+    <div class =  "form-flie">
+        <button class="btn-file"><i class="la la-upload"></i></button>
+        <input type="file" id="file" name="file">
+        <div class= "file-container">
+            <p id="uploadFileName">79.png</p>
+            <progress value="22" max="100"></progress>
+            <p>----------------------</p>
+        </div>
+    </div>
+    
+    <div>
+        <button class="target_reg" > reg</button>
+        <p class="target_case">accident_case</p>
+        <p class="target_name">1</p>
+    </div>
+        <p>----------------------</p>
+        <div>
+        <button onclick="send()"> Bye</button>
+        <p id="result">result : </p>
+
+        <button class="excelUpload-btn"> Bye Bye</button>
+        <p id="result">result : </p>
+    </div>
+</div>
+
+<script>
+
+$('#target_reg').click(function(){
+    const tg_case = $('#target_case').val();
+    const tg_name = $('#target_name').val();
+    const formData = {
+        tg_case: tg_case,
+        tg_name: tg_name,
+    }
+    console.log(formData)
+
+    const r = new XMLHttpRequest();
+    r.post('POST', '/target/regTarget', true)
+    r.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
+    r.withCredentials = true;
+    r.onreadystatechange = function() {
+        let rObj;
+        if(r.readyState === 4) {
+            if(r.status === 200) {
+                document.location.reload();
+            } else {
+                rObj = JSON.parse(r.responseText);
+            }
+        }
+    };
+    r.send(JSON.stringify(formData));
+});
+
+//이것만 하면 될 듯
+
+function send(){
+    //document.getElementById("result").innerHTML = "result: Fail";
+    var data = new FormData();
+    data.append("file", $('#file').prop('files')[0]);
+    console.log(data);
+    $.ajax({
+        type: "POST",
+        enctype: 'multipart/form-data',
+        url: "http://127.0.0.1:8000/get_image/",
+        data: data,
+        processData: false,
+        contentType: false,
+        cache: false,
+        timeout: 60000,
+        xhrFields: {
+            withCredentials: true
+        },
+        success: function(result){
+            console.log("SUCCESS: ", result.data);
+            alert('전송이 완료되었습니다.');
+            location.reload();
+            document.getElementById("result").innerHTML = "result: Sucess";
+        },
+        error: function(e) {
+            console.log("ERROR : ", e)
+            document.getElementById("result").innerHTML = "result: Fail";
+        }
+    })
+}
+
+
+$('#excelUpload-btn').click(function(){
+    var data = new FormData();
+    data.append("file", $('#file').prop('files')[0]);
+    console.log(data);
+    $.ajax({
+        type: "POST",
+        enctype: 'multipart/form-data',
+        url: "http://127.0.0.1:8000/get_image/",
+        data: data,
+        processData: false,
+        contentType: false,
+        cache: false,
+        timeout: 60000,
+        xhrFields: {
+            withCredentials: true
+        },
+        success: function(result){
+            console.log("SUCCESS: ", result.data);
+            alert('전송이 완료되었습니다.');
+            location.reload();
+            document.getElementById("result").innerHTML = "result: Sucess";
+        },
+        error: function(e) {
+            console.log("ERROR : ", e)
+            document.getElementById("result").innerHTML = "result: Fail";
+        }
+    })
+})
+
+</script>
+
+</body>
+</html>
+
