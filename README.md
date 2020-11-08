@@ -34,4 +34,11 @@ https://medium.com/@chamakhabdallah8/how-to-deploy-a-keras-model-to-production-w
 
 ### 이미지 전송 restful
 - https://yongwookha.github.io/ETC/2020-07-22-django-rest-api-framework
+- https://eunjin3786.tistory.com/133
+- https://itinerant.tistory.com/134?category=736038
+
+
+- python manage.py runserver 127.0.0.1:8008
+
+### js 실행시키기
 

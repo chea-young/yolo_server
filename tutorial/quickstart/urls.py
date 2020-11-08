@@ -1,12 +1,11 @@
 from django.urls import path
 from rest_framework import routers
-from .views import InferenceViewSet
+from .views import InferenceViewSet, DetectStartView, IndexView
 from django.conf.urls import include
 
-
-router = routers.DefaultRouter()
-router.register('inference', InferenceViewSet)
+app_name = 'quickstart'
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('', IndexView.as_view(), name='index'),
+    path('detect_start/', DetectStartView.as_view())
 ]
