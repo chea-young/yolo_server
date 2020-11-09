@@ -12,8 +12,6 @@ pip install djangorestframework
 
 # 파이썬 버전 낮추기
 commend 에서 virtualenv 자기 가상환경이른 --python=python버전 하기
-# yolo_server
-
 
 # keras 로 darknet 바꾸기 (참고 https://github.com/qqwweee/keras-yolo3)
 curl -o yolo.weights https://pjreddie.com/media/files/yolov3.weights
@@ -35,7 +33,7 @@ https://medium.com/@chamakhabdallah8/how-to-deploy-a-keras-model-to-production-w
 ### 이미지 전송 restful
 - https://yongwookha.github.io/ETC/2020-07-22-django-rest-api-framework
 - https://eunjin3786.tistory.com/133
-- https://itinerant.tistory.com/134?category=736038
+- https://itinerant.tistory.com/134?category=736038 => basic.html
 - https://bourbonkk.tistory.com/69 => send_post.html
 
 ### js 실행시키기
