@@ -13,6 +13,8 @@ from django.views import View
 from django.http import HttpResponse, JsonResponse
 import cv2
 import os
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -117,3 +119,7 @@ def delte_image(image_path, image_name):
     image_file = image_path+str(image_name)+'.png'
     if os.path.isfile(image_file):
         os.remove(image_file)
+
+@csrf_exempt
+def sample(request):
+    return render(request,'quickstart/sample.html')

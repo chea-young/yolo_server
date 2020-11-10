@@ -43,3 +43,6 @@ https://medium.com/@chamakhabdallah8/how-to-deploy-a-keras-model-to-production-w
 - python manage.py runserver 127.0.0.1:8008 실행
 - http://127.0.0.1:8008/quickstart/detect_signal/ 화면을 치면
 - push_server로 http://127.0.0.1:8000/get_image/ post로 보내지고 자동으로 DB에 저장
+
+- (index):1 Access to XMLHttpRequest at 'http://127.0.0.1:8000/quickstart/sample/' from origin 'http://127.0.0.1:8008' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+--> 해결을 위해 $ pip install django-cors-headers
