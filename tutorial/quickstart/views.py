@@ -122,4 +122,9 @@ def delte_image(image_path, image_name):
 
 @csrf_exempt
 def sample(request):
-    return render(request,'quickstart/sample.html')
+    """image = [cv2.imread("C:/Users/w1004/Documents/GitHub/iceboat/tutorial/quickstart/templates/quickstart/79.png")]
+    form = ImageData(case = "accident", image = image)
+    form.save()
+    send_data = ImageData.objects.all() 
+    context = {'image' : send_data}"""
+    return render(request,'sample.html')

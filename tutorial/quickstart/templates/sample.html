@@ -1,0 +1,44 @@
+{% load static %}
+<html>
+<head>
+      <!-- favicon.ico 404 (Not Found) -->
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("input").keyup(function(){
+    var txt = $("input").val();
+    var image = document.getElementById("image").src
+    $.post("http://127.0.0.1:8000/quickstart/sample/", 
+    {
+      suggest: txt, 
+      case: 'accident', 
+      cctv_id: 'cctv_1',
+      data : image
+    }, function(result){
+      $("span").html(result);
+    });
+  });
+});
+</script>
+</head>
+<body>
+
+    <p>Start typing a name in the input field below:</p>
+        {% for i in image%}
+            <div>
+                <img class="image" id "image" src="{{ i.image.url }}"/>
+            </div>
+        {% endfor %}
+    First name:
+    <input type="text">
+    <img  src="{%static "79.png"%}" id="image" width="100" height="200">
+    {% block content %}{% endblock %}
+
+    <!-- <img src="C:/Users/w1004/Documents/GitHub/iceboat/tutorial/quickstart/templates/quickstart/79.png" width="100" height="200">-->
+    <p>Suggestions: <span></span></p>
+    <p>The file used in this example (<a href="https://www.w3schools.com/jquery/demo_ajax_gethint.txt" target="_blank">demo_ajax_gethint</a>) is explained in our Ajax tutorial</p>
+
+</body>
+</html>
