@@ -46,3 +46,6 @@ https://medium.com/@chamakhabdallah8/how-to-deploy-a-keras-model-to-production-w
 
 - (index):1 Access to XMLHttpRequest at 'http://127.0.0.1:8000/quickstart/sample/' from origin 'http://127.0.0.1:8008' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
 --> 해결을 위해 $ pip install django-cors-headers
+
+### 장고 시작시 실행할 코드 작성
+- http://blog.quantylab.com/django_onstartup.html -> python manage.py runserver --noreload
