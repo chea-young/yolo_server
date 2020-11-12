@@ -5,6 +5,7 @@ password : 1234
 ## 가상 환경 켜기
 python3 -m venv env
 source venv/Scripts/activate  # On Windows use `env\Scripts\activate`
+venv_yolo\Scripts\activate
 
 ## restframework 다운
 pip install django
