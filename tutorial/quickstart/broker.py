@@ -1,7 +1,8 @@
 from django.apps import AppConfig
-import quickstart.RID.RID.main
+import quickstart.main
 import time
-
+import django
+django.setup()
 class MyAppConfig(AppConfig):
     name = 'quickstart'
     verbose_name = "My App"

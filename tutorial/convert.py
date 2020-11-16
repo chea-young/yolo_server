@@ -152,7 +152,7 @@ def _main(args):
 
             # Handle activation.
             act_fn = None
-            if activation == 'leaky':
+            if activation == 'mish':
                 pass  # Add advanced activation later.
             elif activation != 'linear':
                 raise ValueError(
