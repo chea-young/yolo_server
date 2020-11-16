@@ -2,9 +2,15 @@
 from pathlib import Path
 import os
 
+import firebase_admin
+from firebase_admin import credentials
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+cred_path = os.path.join(BASE_DIR, "serviceAccountKey.json")
+cred = credentials.Certificate(cred_path)
+firebase_admin.initialize_app(cred)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -31,6 +37,10 @@ INSTALLED_APPS = [
     'quickstart',
     'corsheaders',
 ]
+
+FCM_DJANGO_SETTINGS = {
+"FCM_SERVER_KEY": "[AAAAyJUhDgY:APA91bHfJlGeAIjOFA5Tb9G2LeRmGsT-pl7pOI-AJaljB9FKRGqAM-s3qH9d01HBQUa9xrjTp4rwItbUnSYzYuBwaXJk5UjT1aMiJG3l9nK__tc9aEocsLiNqdDOGXp3krOHtqIUgjNP]"
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -133,10 +143,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-MEDIA_URL = '/media/'
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')

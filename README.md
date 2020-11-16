@@ -16,7 +16,9 @@ commend 에서 virtualenv 자기 가상환경이른 --python=python버전 하기
 
 # keras 로 darknet 바꾸기 (참고 https://github.com/qqwweee/keras-yolo3)
 curl -o yolo.weights https://pjreddie.com/media/files/yolov3.weights
-python convert.py yolov3.cfg yolov3.weights model_data/yolo.h5
+python convert.py yolov3.cfg yolov3.weights model_data/yolov3.h5
+
+python convert.py yolov4.cfg yolov4.weights model_data/yolov4.h5
 - 이때 convert.py랑 yolov3.cfg 필요
 
 python yolo_video.py [OPTIONS...] --image, for image detection mode, OR
