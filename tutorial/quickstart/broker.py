@@ -8,13 +8,14 @@ class MyAppConfig(AppConfig):
 
     def ready(self):
         print('start')
-        try:
-            start = time.time()
-            while(True):
-                if(time.time()-start>30):
-                    app.run(main)
-                    start = time.time()
-        except SystemExit:
-            pass
+        while(True):
+            try:
+                start = time.time()
+                while(True):
+                    if(time.time()-start>30):
+                        app.run(main)
+                        start = time.time()
+            except SystemExit:
+                pass
         
         pass

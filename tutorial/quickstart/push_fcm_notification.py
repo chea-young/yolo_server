@@ -8,10 +8,10 @@ def send_to_firebase_cloud_messaging():
     message = messaging.Message(
     notification=messaging.Notification(
         title='안녕하세요 타이틀 입니다',
-        body={case:'accidnet', cctv_id:'서울역',},
-        image='이미지 url'
+        body='안녕하세요',    
     ),
     token=registration_token,
+    data={'case':'accidnet', 'cctv_id':'서울역'},
     )
 
     response = messaging.send(message)
