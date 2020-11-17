@@ -47,7 +47,7 @@ flags.DEFINE_boolean('count', False, 'count objects being tracked on screen')
 
 START_PATH = 'quickstart/RID/RID/'
 #IMAGE_SAVE_PATH = 'C:/Users/w1004/Documents/GitHub/iceboat/tutorial/situation_image/'
-IMAGE_SAVE_PATH = '/situation_image/'
+IMAGE_SAVE_PATH = '/quickstart/situation_image/'
 def saved_log(video_path,bbox_dict,acc_dict,obst_dict,log_num,attracted_image):
     root_path=START_PATH+'/outputs/'
     slash_idx=video_path.rfind('/')
