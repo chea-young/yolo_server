@@ -1,7 +1,7 @@
 import os
 import sys
 from scipy.spatial import distance
-
+import time
 # comment out below line to enable tensorflow logging outputs
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import time
@@ -47,7 +47,7 @@ flags.DEFINE_boolean('count', False, 'count objects being tracked on screen')
 
 START_PATH = 'quickstart/RID/RID/'
 #IMAGE_SAVE_PATH = 'C:/Users/w1004/Documents/GitHub/iceboat/tutorial/situation_image/'
-IMAGE_SAVE_PATH = '/quickstart/situation_image/'
+IMAGE_SAVE_PATH = 'C:/Users/w1004/Documents/GitHub/iceboat/tutorial/situation_image/'
 def saved_log(video_path,bbox_dict,acc_dict,obst_dict,log_num,attracted_image):
     root_path=START_PATH+'/outputs/'
     slash_idx=video_path.rfind('/')
@@ -411,17 +411,19 @@ def main(_argv):
 
             if not os.path.exists(IMAGE_SAVE_PATH):
                 os.makedirs(IMAGE_SAVE_PATH)
-            if bool(acc_dict)==True :
+            tm = time.localtime()
+            image_name = str(tm.tm_mon)+str(tm.tm_mon)+str(tm.tm_hour)+str(tm.tm_min)+str(tm.tm_sec)
+            if bool(acc_dict)==True:
                 if(frame_num == 0):
                     frame_num = log_num
-                    name = IMAGE_SAVE_PATH+str(log_num)+'.png'
+                    name = IMAGE_SAVE_PATH+image_name+'.png'
                     cv2.imwrite(name,attracted_image)
                     #save_imagemodel(attracted_image)
                     send_to_firebase_cloud_messaging(name,'acc')
                 else:
                     if(frame_num+1 != log_num):
                         #save_imagemodel(attracted_image)
-                        name = IMAGE_SAVE_PATH+str(log_num)+'.png'
+                        name = IMAGE_SAVE_PATH+image_name+'.png'
                         cv2.imwrite(name,attracted_image)
                         send_to_firebase_cloud_messaging(name,'acc')
                         #send_to_firebase_cloud_messaging('C:/Users/u_rim/Desktop/aa.png')
@@ -432,14 +434,14 @@ def main(_argv):
             elif(bool(obst_dict)==True):
                 if(frame_num == 0):
                     frame_num = log_num
-                    name = IMAGE_SAVE_PATH+str(log_num)+'.png'
+                    name = IMAGE_SAVE_PATH+image_name+'.png'
                     cv2.imwrite(name,attracted_image)
                     #save_imagemodel(attracted_image)
                     send_to_firebase_cloud_messaging(name,'ob')
                 else:
                     if(frame_num+1 != log_num):
                         #save_imagemodel(attracted_image)
-                        name = IMAGE_SAVE_PATH+str(log_num)+'.png'
+                        name = IMAGE_SAVE_PATH+image_name+'.png'
                         cv2.imwrite(name,attracted_image)
                         send_to_firebase_cloud_messaging(name,'ob')
                         #send_to_firebase_cloud_messaging('C:/Users/u_rim/Desktop/aa.png')
@@ -456,9 +458,6 @@ def main(_argv):
             if cv2.waitKey(1) & 0xFF == ord('q'): break
             log_num+=1  
         cv2.destroyAllWindows()
-
-def save_imagemodel(attracted_image):
-    pass
 
 def send_to_firebase_cloud_messaging(url,type):
     # This registration token comes from the client FCM SDKs.

@@ -54,8 +54,8 @@ https://medium.com/@chamakhabdallah8/how-to-deploy-a-keras-model-to-production-w
 - http://blog.quantylab.com/django_onstartup.html -> python manage.py runserver --noreload
 
 ### 푸시알람 + 이미지전송 post 해야되는 순서
-- [ ] 1. push 알람 data에 title, body, cctv_id(해당 지역만 알람 보여주기 위해서), image_name사진 이름(현재 시간), 
-- [ ] 2. 이미지 저장되는 거 확인(로컬에서)
+- [X] 1. push 알람 data에 title, body, cctv_id(해당 지역만 알람 보여주기 위해서), image_name사진 이름(현재 시간), 
+- [X] 2. 이미지 저장되는 거 확인(로컬에서)
 - [ ] 3. DB에서 이미지 저장되는 거 확인(admin에서)
 - [ ] 4. onMessage에 title, option 말고 뭐 더 있는지 확인
 - [ ] 5. python 으로 post 이미지 보내는 거 확인

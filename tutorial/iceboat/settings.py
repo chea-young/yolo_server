@@ -62,7 +62,7 @@ CORS_ORIGIN_WHITELIST = [
     'http://127.0.0.1:8008',
     ]
 
-ROOT_URLCONF = 'tutorial.urls'
+ROOT_URLCONF = 'iceboat.urls'
 
 TEMPLATES = [
     {
@@ -80,7 +80,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'tutorial.wsgi.application'
+WSGI_APPLICATION = 'iceboat.wsgi.application'
 
 
 # Database
