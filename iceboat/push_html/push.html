@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <title>push</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <link href="data/styles.css" type="text/css" rel="stylesheet"/>
+    <link href="files/push/styles.css" type="text/css" rel="stylesheet"/>
+
+  </head>
+  <body>
+    <div id="base" class="">
+
+      <!-- FCM_Webapp (Group) -->
+      <div id="u0" class="ax_default ax_default_hidden" style="display:none; visibility: hidden" data-label="FCM_Webapp"  data-left="609" data-top="0" data-width="415" data-height="400">
+
+        <!-- FCM BG (Rectangle) -->
+        <div id="u1" class="ax_default shape" data-label="FCM BG">
+          <div id="u1_div" class=""></div>
+          <div id="u1_text" class="text " style="display:none; visibility: hidden">
+            <p></p>
+          </div>
+        </div>
+
+        <!-- Rectangle 1 (Rectangle) -->
+        <div id="u2" class="ax_default shape" data-label="Rectangle 1">
+          <div id="u2_div" class=""></div>
+          <div id="u2_text" class="text " style="display:none; visibility: hidden">
+            <p></p>
+          </div>
+        </div>
+
+        <!-- Notification (Rectangle) -->
+        <div id="u3" class="ax_default shape" data-label="Notification">
+          <div id="u3_div" class=""></div>
+          <div id="u3_text" class="text ">
+            <p id= "title" ><span>주변을 살피며 조심히 운전하세요.</span></p>
+          </div>
+        </div>
+
+        <!-- Case (Rectangle) -->
+        <div id="u4" class="ax_default shape" data-label="Case">
+          <div id="u4_div" class=""></div>
+          <div id="u4_text" class="text ">
+            <p id= "body"><span id>교통사고가 발생했습니다.</span></p>
+          </div>
+        </div>
+
+        <!-- 89 1 (Rectangle) -->
+        <div id="u5" class="ax_default shape" data-label="89 1">
+          <div id="u5_div" class=""><img id="Img" src='../../images/push/u5_div.png' width="414" height="232"></div>
+          <div id="u5_text" class="text " style="display:none; visibility: hidden">
+            <p></p>
+          </div>
+        </div>
+      </div>
+      <button onclick='raise_notification()'>k</button>
+      <!-- push_button (Rectangle) -->
+      <div id="u6" class="ax_default sticky_1" data-label="push_button">
+        <div id="u6_div" class=""></div>
+        
+        <div id="u6_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/5.5.9/firebase.js"></script>
+<script>
+    // Initialize Firebase
+    var config = {
+    apiKey: "AIzaSyBfLYQieTSNFJVghLmwPidH9eMLJ8sgafA",
+    authDomain: "push-server-56a52.firebaseapp.com",
+    databaseURL: "https://push-server-56a52.firebaseio.com",
+    projectId: "push-server-56a52",
+    storageBucket: "push-server-56a52.appspot.com",
+    messagingSenderId: "967213415011",
+    appId: "AIzaSyBfLYQieTSNFJVghLmwPidH9eMLJ8sgafA",
+    measurementId: "G-MDVS63TX7X"
+};
+    firebase.initializeApp(config);
+ 
+    const messaging = firebase.messaging();
+ 
+    //token값 알아내기
+    messaging.requestPermission()
+        .then(function(){
+            console.log("Have permission");
+            return messaging.getToken();
+        })
+        .then(function(token){
+            console.log(token);
+        })
+        .catch(function(arr){
+            console.log("Error Occured", err);
+        });
+
+    messaging.onMessage(function(payload) {
+        document.getElementById("title").innerHTML = payload.data.title;
+        document.getElementById("body").innerHTML = payload.data.body;
+        document.getElementById("Img").src = '../../sample_dog.jpg';
+        console.log('onMessage: ', payload);
+        raise_notification()
+        //style="display:none; visibility: hidden"
+    });
+    
+    function raise_notification() {
+      document.getElementById("u0").style.visibility = "visible"
+      document.getElementById("u0").style.display = "block"
+    }
+</script>
+  </body>
+</html>
