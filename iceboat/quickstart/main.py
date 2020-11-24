@@ -15,7 +15,7 @@ import quickstart.RID.RID.core.utils as utils
 from quickstart.RID.RID.core.yolov4 import filter_boxes
 from tensorflow.python.saved_model import tag_constants
 from quickstart.RID.RID.core.config import cfg
-
+import requests
 from PIL import Image
 import cv2
 import numpy as np
@@ -408,48 +408,45 @@ def main(_argv):
             
             if not FLAGS.dont_show:
                 cv2.imshow("Output Video", result)
-
             if not os.path.exists(IMAGE_SAVE_PATH):
                 os.makedirs(IMAGE_SAVE_PATH)
             tm = time.localtime()
             image_name = str(tm.tm_mon)+str(tm.tm_mon)+str(tm.tm_hour)+str(tm.tm_min)+str(tm.tm_sec)
-            if bool(acc_dict)==True:
+            if bool(acc_dict)==True:#사고난 것을 감지하면
                 if(frame_num == 0):
                     frame_num = log_num
-                    name = IMAGE_SAVE_PATH+image_name+'.png'
-                    cv2.imwrite(name,attracted_image)
-                    #save_imagemodel(attracted_image)
-                    send_to_firebase_cloud_messaging(name,'acc')
+                    image_url = IMAGE_SAVE_PATH+image_name+'.png'
+                    cv2.imwrite(image_url,attracted_image) #local 저장소에 감지됬을 때 이미지를 저장
+                    #'acc'는 감지 된 유형의 정보, image_name은 저장된 이미지 이름으로 fcm을 보낸다.
+                    send_to_firebase_cloud_messaging('acc', image_name) 
+                    #image_url은 local에 저장된 이미지 장소, image_name 이미지로 post 보냄
+                    #image_name을 보내는 이유는 fcm을 보낼 떄 image_name이 같은 것으로 DB에서 이미지를 찾아서 알림을 보내기 때문에
+                    send_post(image_url, image_name)
                 else:
                     if(frame_num+1 != log_num):
-                        #save_imagemodel(attracted_image)
-                        name = IMAGE_SAVE_PATH+image_name+'.png'
-                        cv2.imwrite(name,attracted_image)
-                        send_to_firebase_cloud_messaging(name,'acc')
-                        #send_to_firebase_cloud_messaging('C:/Users/u_rim/Desktop/aa.png')
-                        
+                        image_url = IMAGE_SAVE_PATH+image_name+'.png'
+                        cv2.imwrite(image_url,attracted_image)
+                        send_to_firebase_cloud_messaging('acc', image_name)
+                        send_post(image_url, image_name)
                         frame_num = log_num
                     else:
                         frame_num += 1
             elif(bool(obst_dict)==True):
                 if(frame_num == 0):
                     frame_num = log_num
-                    name = IMAGE_SAVE_PATH+image_name+'.png'
-                    cv2.imwrite(name,attracted_image)
-                    #save_imagemodel(attracted_image)
-                    send_to_firebase_cloud_messaging(name,'ob')
+                    image_url = IMAGE_SAVE_PATH+image_name+'.png'
+                    cv2.imwrite(image_url,attracted_image)
+                    send_to_firebase_cloud_messaging('ob',image_name)
+                    send_post(image_url, image_name)
                 else:
                     if(frame_num+1 != log_num):
-                        #save_imagemodel(attracted_image)
-                        name = IMAGE_SAVE_PATH+image_name+'.png'
-                        cv2.imwrite(name,attracted_image)
-                        send_to_firebase_cloud_messaging(name,'ob')
-                        #send_to_firebase_cloud_messaging('C:/Users/u_rim/Desktop/aa.png')
-                        
+                        image_url = IMAGE_SAVE_PATH+image_name+'.png'
+                        cv2.imwrite(image_url,attracted_image)
+                        send_to_firebase_cloud_messaging('ob',image_name)
+                        send_post(image_url, image_name)
                         frame_num = log_num
                     else:
                         frame_num += 1
-
 
             saved_log(video_path,tracker_dict,acc_dict,obst_dict,log_num,attracted_image)
             # if output flag is set, save video file
@@ -457,40 +454,46 @@ def main(_argv):
                 out.write(result)
             if cv2.waitKey(1) & 0xFF == ord('q'): break
             log_num+=1  
+
         cv2.destroyAllWindows()
-
-def send_to_firebase_cloud_messaging(url,type):
-    # This registration token comes from the client FCM SDKs.
-    registration_token = 'cHXdiCBkUFM:APA91bFI01-x0KnqCSSJRCh7iD-50rprDalwsom5nhdcHCDomm9XLc7m9rJAR-OsRJzFLJ-YctQUsfTs6um_wO4yb476s6b_frfVPom94_CwJoo7JwKG1iOdbmBg4MrmV-PwCQOTLUC-'
-
-    # See documentation on defining a message payload.
-    if(type =='acc'):
+#fcm 보내는 함수
+def send_to_firebase_cloud_messaging(type, image_name):
+    registration_token = 'dEn7h6FyDEw:APA91bFvJa1wBNZyCwd7d5wkwrAuFm_Dh-ryAlSi0UO-f_dntQEK5G2W6vsqIBtz_QVwRdWJlf6__YFk48P6tJuXmx6-LW8vgoEefdhPpDvhQ6qnW12Sz8vLNdG49Fws9JakpSoa0B5u'
+    if type == 'acc' :
         message = messaging.Message(
-        notification=messaging.Notification(
-            title='알림입니다.',
-            body='주변에 교통사고가 났습니다. 조심하세요',
-            image= url,
-        ),
-        token=registration_token,
-        data={'case':'accidnet', 'cctv_id':'서울역'},
+            data={
+                'title':'조심하세요',
+                'body':'경로에 교통사고가 났습니다. 주의하세요', 
+                'cctv_id' : '1',
+                'image_name' : image_name,
+            },
+            token=registration_token,
         )
-    elif(type == 'ob'):
+        response = messaging.send(message)
+        print('Successfully sent message:', response)
+    elif type == 'ob' :
         message = messaging.Message(
-        notification=messaging.Notification(
-            title='알림입니다.',
-            body='주변 도로에 장애물이 있습니다. 조심하세요.',
-            image= url,
-        ),
-        token=registration_token,
-        data={'case':'accidnet', 'cctv_id':'서울역'},
+            data={
+                'title':'조심하세요',
+                'body':'경로의 도로에 장애물이 있습니다. 주의하세요', 
+                'cctv_id' : '1',
+                'image_name' : image_name,
+            },
+            token=registration_token,
         )
-    
-
-    response = messaging.send(message)
-    # Response is a message ID string.
-    print('Successfully sent message:', response)
-    
- 
+        response = messaging.send(message)
+        print('Successfully sent message:', response)
+#post로 보내는 함수
+def send_post(image_url, image_name):
+    url = "http://127.0.0.1:8000/push_server/image/"
+    files = {
+        'image': open(image_url, 'rb')
+        }
+    data = {
+        'name' : image_name
+    }
+    response = requests.request("POST", url, files=files, data = data)
+    print(response)
 if __name__ == '__main__':
     try:
         app.run(main)
